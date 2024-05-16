@@ -1,3 +1,5 @@
+I forked this to adapt it to my uses, particularly edited latex documents about physics. 
+
 # vscode-quick-select
 
 
