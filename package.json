@@ -21,7 +21,7 @@
     "onCommand:extension.selectCurlyBrackets",
     "onCommand:extension.selectParenthesisOuter",
     "onCommand:extension.selectSquareBracketsOuter",
-    "onCommand:extension.selectCurlyBracketsOuter",
+    "onCommand:extension.selectSection",
     "onCommand:extension.selectAngleBrackets",
     "onCommand:extension.selectInTag"
   ],
@@ -69,17 +69,18 @@
         "title": "Quick Select: Select outside square brackets"
       },
       {
-        "command": "extension.selectCurlyBracketsOuter",
-        "title": "Quick Select: Select outside curly brackets"
-      },
-      {
         "command": "extension.selectAngleBrackets",
         "title": "Quick Select: Select inside angled brackets"
       },
       {
-        "command": "extension.selectInTag",
-        "title": "Quick Select: Select inside tag"
+        "command": "extension.selectAngleBracketsOuter",
+        "title": "Quick Select: Select outside angled brackets"
+      },
+      {
+        "command": "extension.selectDollarSign",
+        "title": "Quick Select: Select dollar sign"
       }
+
     ],
     "keybindings": [
       {
@@ -143,21 +144,21 @@
         "when": "editorFocus"
       },
       {
-        "command": "extension.selectCurlyBracketsOuter",
-        "key": "ctrl+k shift+]",
-        "mac": "cmd+k shift+]",
-        "when": "editorFocus"
-      },
-      {
         "command": "extension.selectAngleBrackets",
         "key": "ctrl+k shift+,",
         "mac": "cmd+k shift+,",
         "when": "editorFocus"
       },
       {
-        "command": "extension.selectInTag",
+        "command": "extension.selectAngleBracketsOuter",
         "key": "ctrl+k shift+.",
         "mac": "cmd+k shift+.",
+        "when": "editorFocus"
+      },
+      {
+        "command": "extension.selectDollarSign",
+        "key": "ctrl+k shift+4",
+        "mac": "cmd+k shift+4",
         "when": "editorFocus"
       }
     ],
@@ -185,6 +186,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/dbankier/vscode-quick-select/"
+    "url": "https://github.com/magzpavz/vscode-quick-select/"
   }
 }

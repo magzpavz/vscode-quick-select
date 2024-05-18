@@ -16,9 +16,10 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(vscode.commands.registerCommand('extension.selectCurlyBrackets', matchingSelect.bind(_, { start_char: "{", end_char: "}" })));
   context.subscriptions.push(vscode.commands.registerCommand('extension.selectParenthesisOuter', matchingSelect.bind(_, { start_char: "(", end_char: ")", outer: true })));
   context.subscriptions.push(vscode.commands.registerCommand('extension.selectSquareBracketsOuter', matchingSelect.bind(_, { start_char: "[", end_char: "]", outer: true })));
-  context.subscriptions.push(vscode.commands.registerCommand('extension.selectCurlyBracketsOuter', matchingSelect.bind(_, { start_char: "{", end_char: "}", outer: true })));
-  context.subscriptions.push(vscode.commands.registerCommand('extension.selectAngleBrackets', matchingSelect.bind(_, { start_char: "<", end_char: ">" })));
-  context.subscriptions.push(vscode.commands.registerCommand('extension.selectInTag', matchingSelect.bind(_, { start_char: ">", end_char: "<" })));
+  // context.subscriptions.push(vscode.commands.registerCommand('extension.selectSection', matchingSelect.bind(_, { start_char: "}", end_char: "{"})));
+  context.subscriptions.push(vscode.commands.registerCommand('extension.selectAngleBrackets', matchingSelect.bind(_, { start_char: "\\langle", end_char: "\\rangle" })));
+  context.subscriptions.push(vscode.commands.registerCommand('extension.selectAngleBracketsOuter', matchingSelect.bind(_, { start_char: "\\langle", end_char: "\\rangle", outer: true })));
+  context.subscriptions.push(vscode.commands.registerCommand('extension.selectDollarSign', singleSelect.bind(_, { char: "$" })));
 }
 
 // Replacables
@@ -199,7 +200,7 @@ function matchingSelect({start_char, end_char, outer = false}: MatchingSelectOpt
   let doc = editor.document
   let sel = editor.selections
   let success = false;
-  let start_offset = outer ? start_char.length : 0;
+  let start_offset = outer ? 1: 1 - start_char.length;
   let end_offset = outer ? end_char.length : 0;
   editor.selections = sel.map(s => {
     let {line, character} = s.active;
@@ -216,9 +217,9 @@ function matchingSelect({start_char, end_char, outer = false}: MatchingSelectOpt
       success = true;
       //Automatically grow to outer selection
       if (!outer &&
-        start_pos.isEqual(s.anchor) &&
+        new vscode.Position(start_pos.line, start_pos.character + start_char.length - 1).isEqual(s.anchor) &&
         new vscode.Position(end_pos.line, end_pos.character - 1).isEqual(s.end)) {
-        start_offset = start_char.length;
+        start_offset = 1;
         end_offset = end_char.length;
       }
       start_pos = new vscode.Position(start_pos.line, start_pos.character - start_offset);
@@ -226,8 +227,5 @@ function matchingSelect({start_char, end_char, outer = false}: MatchingSelectOpt
       return new vscode.Selection(start_pos, end_pos)
     }
     return s;
-  })
-  if (success && start_char === "<") {
-    vscode.commands.executeCommand("editor.action.addSelectionToNextFindMatch")
-  }
+  });
 }
